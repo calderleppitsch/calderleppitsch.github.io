@@ -1,12 +1,16 @@
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background-color: black;
+    overflow: hidden; /* Prevent scrollbars */
 }
 
 canvas {
-    border: 1px solid black;
-    margin-top: 20px;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    border: none; /* Remove border */
 }

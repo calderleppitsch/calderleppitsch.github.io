@@ -1,9 +1,14 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+// Adjustable variables
 const rows = 50;
 const cols = 50;
-const cellSize = canvas.width / cols;
+let cellSize = canvas.width / cols; // Cell size can change with zoom
+let frameRate = 5; // Frames per second
+let zoomLevel = 1; // Zoom level
+let offsetX = 0; // Horizontal pan offset
+let offsetY = 0; // Vertical pan offset
 
 let grid = createGrid(rows, cols);
 
@@ -22,8 +27,12 @@ function drawGrid() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
-            ctx.fillStyle = grid[i][j] ? 'black' : 'white';
-            ctx.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
+            const x = (j * cellSize - offsetX) * zoomLevel;
+            const y = (i * cellSize - offsetY) * zoomLevel;
+            const size = cellSize * zoomLevel;
+
+            ctx.fillStyle = grid[i][j] ? 'white' : 'black';
+            ctx.fillRect(x, y, size, size);
         }
     }
 }
@@ -61,7 +70,44 @@ function countNeighbors(grid, x, y) {
 function gameLoop() {
     drawGrid();
     updateGrid();
-    requestAnimationFrame(gameLoop);
+    setTimeout(() => requestAnimationFrame(gameLoop), 1000 / frameRate);
 }
+
+// Event listeners for zoom and pan
+canvas.addEventListener('wheel', (event) => {
+    event.preventDefault();
+    const zoomFactor = 1.1;
+    if (event.deltaY < 0) {
+        zoomLevel *= zoomFactor; // Zoom in
+    } else {
+        zoomLevel /= zoomFactor; // Zoom out
+    }
+});
+
+let isPanning = false;
+let startX, startY;
+
+canvas.addEventListener('mousedown', (event) => {
+    isPanning = true;
+    startX = event.clientX;
+    startY = event.clientY;
+});
+
+canvas.addEventListener('mousemove', (event) => {
+    if (isPanning) {
+        offsetX += (startX - event.clientX) / zoomLevel;
+        offsetY += (startY - event.clientY) / zoomLevel;
+        startX = event.clientX;
+        startY = event.clientY;
+    }
+});
+
+canvas.addEventListener('mouseup', () => {
+    isPanning = false;
+});
+
+canvas.addEventListener('mouseleave', () => {
+    isPanning = false;
+});
 
 gameLoop();
