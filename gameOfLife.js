@@ -5,7 +5,7 @@ const ctx = canvas.getContext('2d');
 const rows = 50;
 const cols = 50;
 let cellSize = canvas.width / cols; // Cell size can change with zoom
-let frameRate = 5; // Frames per second
+let frameRate = 30; // Frames per second
 let zoomLevel = 1; // Zoom level
 let offsetX = 0; // Horizontal pan offset
 let offsetY = 0; // Vertical pan offset
@@ -25,8 +25,13 @@ function createGrid(rows, cols) {
 
 function drawGrid() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < cols; j++) {
+    const startRow = Math.floor(offsetY / cellSize);
+    const endRow = Math.ceil((offsetY + canvas.height / zoomLevel) / cellSize);
+    const startCol = Math.floor(offsetX / cellSize);
+    const endCol = Math.ceil((offsetX + canvas.width / zoomLevel) / cellSize);
+
+    for (let i = Math.max(0, startRow); i < Math.min(rows, endRow); i++) {
+        for (let j = Math.max(0, startCol); j < Math.min(cols, endCol); j++) {
             const x = (j * cellSize - offsetX) * zoomLevel;
             const y = (i * cellSize - offsetY) * zoomLevel;
             const size = cellSize * zoomLevel;
@@ -73,10 +78,9 @@ function gameLoop() {
     setTimeout(() => requestAnimationFrame(gameLoop), 1000 / frameRate);
 }
 
-// Event listeners for zoom and pan
 canvas.addEventListener('wheel', (event) => {
     event.preventDefault();
-    const zoomFactor = 1.1;
+    const zoomFactor = 1.2; // Increase zoom factor for faster zooming
     if (event.deltaY < 0) {
         zoomLevel *= zoomFactor; // Zoom in
     } else {
@@ -95,8 +99,9 @@ canvas.addEventListener('mousedown', (event) => {
 
 canvas.addEventListener('mousemove', (event) => {
     if (isPanning) {
-        offsetX += (startX - event.clientX) / zoomLevel;
-        offsetY += (startY - event.clientY) / zoomLevel;
+        const panSpeed = 1.5; // Increase panning speed
+        offsetX += (startX - event.clientX) / zoomLevel * panSpeed;
+        offsetY += (startY - event.clientY) / zoomLevel * panSpeed;
         startX = event.clientX;
         startY = event.clientY;
     }
