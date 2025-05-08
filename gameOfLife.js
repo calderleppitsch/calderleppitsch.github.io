@@ -106,11 +106,22 @@ window.addEventListener('resize', adjustCanvasResolution);
 const zoomFactor = 1.01; // Increase zoom factor for faster zooming
 canvas.addEventListener('wheel', (event) => {
     event.preventDefault();
+
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = (event.clientX - rect.left) / zoomLevel + offsetX;
+    const mouseY = (event.clientY - rect.top) / zoomLevel + offsetY;
+
     if (event.deltaY < 0) {
-        zoomLevel *= zoomFactor; // Zoom in
+        // Zoom in
+        zoomLevel *= zoomFactor;
     } else {
-        zoomLevel /= zoomFactor; // Zoom out
+        // Zoom out
+        zoomLevel /= zoomFactor;
     }
+
+    // Adjust offsets to keep the zoom centered on the mouse position
+    offsetX = mouseX - (event.clientX - rect.left) / zoomLevel;
+    offsetY = mouseY - (event.clientY - rect.top) / zoomLevel;
 });
 
 let isPanning = false;
@@ -122,19 +133,21 @@ canvas.addEventListener('mousedown', (event) => {
     startY = event.clientY;
 });
 
-const panSpeed = 0.5; // Increase panning speed
-
 canvas.addEventListener('mousemove', (event) => {
     if (isPanning) {
-        // offsetX += (startX - event.clientX) / zoomLevel * panSpeed;
-        // offsetY += (startY - event.clientY) / zoomLevel * panSpeed;
-        offsetX = (startX - event.clientX) / zoomLevel * panSpeed;
-        offsetY = (startY - event.clientY) / zoomLevel * panSpeed;
-        // startX = event.clientX;
-        // startY = event.clientY;
+        // Calculate the difference in mouse position
+        const deltaX = startX - event.clientX;
+        const deltaY = startY - event.clientY;
+
+        // Update offsets directly based on mouse movement
+        offsetX += deltaX / zoomLevel;
+        offsetY += deltaY / zoomLevel;
+
+        // Update the starting position for the next movement
+        startX = event.clientX;
+        startY = event.clientY;
     }
 });
-
 canvas.addEventListener('mouseup', () => {
     isPanning = false;
 });
@@ -159,28 +172,30 @@ canvas.addEventListener('touchstart', (event) => {
 });
 
 canvas.addEventListener('touchmove', (event) => {
-    event.preventDefault(); // Prevent default scrolling behavior
+    event.preventDefault();
 
-    if (event.touches.length === 1) {
-        // Single touch for panning
-        const touchX = event.touches[0].clientX;
-        const touchY = event.touches[0].clientY;
-
-        offsetX += (lastTouchX - touchX) / zoomLevel * panSpeed;
-        offsetY += (lastTouchY - touchY) / zoomLevel * panSpeed;
-
-        lastTouchX = touchX;
-        lastTouchY = touchY;
-    } else if (event.touches.length === 2) {
-        // Two fingers for pinch-to-zoom
+    if (event.touches.length === 2) {
         const currentTouchDistance = getTouchDistance(event.touches);
+        const rect = canvas.getBoundingClientRect();
+
+        const midX = (event.touches[0].clientX + event.touches[1].clientX) / 2;
+        const midY = (event.touches[0].clientY + event.touches[1].clientY) / 2;
+
+        const gridMidX = (midX - rect.left) / zoomLevel + offsetX;
+        const gridMidY = (midY - rect.top) / zoomLevel + offsetY;
+
         if (lastTouchDistance) {
             if (currentTouchDistance > lastTouchDistance) {
                 zoomLevel *= zoomFactor; // Zoom in
             } else {
                 zoomLevel /= zoomFactor; // Zoom out
             }
+
+            // Adjust offsets to keep the zoom centered on the midpoint
+            offsetX = gridMidX - (midX - rect.left) / zoomLevel;
+            offsetY = gridMidY - (midY - rect.top) / zoomLevel;
         }
+
         lastTouchDistance = currentTouchDistance;
     }
 });
