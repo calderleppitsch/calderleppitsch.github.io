@@ -2,30 +2,35 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 // Adjustable variables
-const rows = 100;
-const cols = 100;
-let cellSize = canvas.width / cols; // Cell size can change with zoom
-let frameRate = 30; // Frames per second
-let zoomLevel = 1; // Zoom level
-let offsetX = 0; // Horizontal pan offset
-let offsetY = 0; // Vertical pan offset
+const rows = 100; // Number of rows in the grid
+const cols = 100; // Number of columns in the grid
+let site_refresh_rate = 60; // Frames per second for website refresh
+let sim_refresh_rate = 10; // Frames per second for simulation refresh
+let zoomLevel = 1; // Initial zoom level
+let offsetX = 0; // Initial horizontal pan offset
+let offsetY = 0; // Initial vertical pan offset
 
+// Initialize the grid
 let grid = createGrid(rows, cols);
 
 function createGrid(rows, cols) {
-    // const grid = [];
-    // for (let i = 0; i < rows; i++) {
-    //     grid[i] = [];
-    //     for (let j = 0; j < cols; j++) {
-    //         grid[i][j] = Math.random() > 0.8 ? 1 : 0; // Randomly populate cells
-    //     }
-    // }
-    // return grid;
+    // Create a grid with random 0s and 1s (dead and alive cells)
     return Array.from({ length: rows }, () =>
         Array.from({ length: cols }, () => (Math.random() > 0.8 ? 1 : 0))
     );
-    // Attempt at optimizing the grid creation using Array.from
 }
+
+let cellSize = canvas.clientWidth / cols; // Calculate initial cell size based on canvas width
+// Make sure the pixels are square
+function adjustCanvasResolution() {
+    const dpr = window.devicePixelRatio || 1; // Get the device pixel ratio
+    canvas.width = canvas.clientWidth * dpr; // Scale canvas width
+    canvas.height = canvas.clientHeight * dpr; // Scale canvas height
+    ctx.scale(dpr, dpr); // Scale the drawing context to match the DPR
+    cellSize = canvas.clientWidth / cols; // Recalculate cell size to ensure square cells
+}
+// Call this function during initialization
+adjustCanvasResolution();
 
 function drawGrid() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -77,15 +82,30 @@ function countNeighbors(grid, x, y) {
     return count;
 }
 
+let iterationCount = 0; // Counter to track iterations
+let frame_rate_ratio = Math.floor(site_refresh_rate / sim_refresh_rate); // Ratio of site refresh rate to simulation refresh rate
+
 function gameLoop() {
-    drawGrid();
-    updateGrid();
-    setTimeout(() => requestAnimationFrame(gameLoop), 1000 / frameRate);
+    drawGrid(); // Always redraw the grid for responsiveness
+
+    // Update the grid only once every 10 iterations
+    if (iterationCount % frame_rate_ratio === 0) {
+        updateGrid();
+    }
+
+    iterationCount++; // Increment the iteration counter
+
+    setTimeout(() => requestAnimationFrame(gameLoop), 1000 / site_refresh_rate);
 }
 
+// Event listeners
+// Window resize
+window.addEventListener('resize', adjustCanvasResolution);
+
+// Mouse wheel zoom
+const zoomFactor = 1.01; // Increase zoom factor for faster zooming
 canvas.addEventListener('wheel', (event) => {
     event.preventDefault();
-    const zoomFactor = 1.2; // Increase zoom factor for faster zooming
     if (event.deltaY < 0) {
         zoomLevel *= zoomFactor; // Zoom in
     } else {
@@ -102,9 +122,10 @@ canvas.addEventListener('mousedown', (event) => {
     startY = event.clientY;
 });
 
+const panSpeed = 0.5; // Increase panning speed
+
 canvas.addEventListener('mousemove', (event) => {
     if (isPanning) {
-        const panSpeed = 0.5; // Increase panning speed
         // offsetX += (startX - event.clientX) / zoomLevel * panSpeed;
         // offsetY += (startY - event.clientY) / zoomLevel * panSpeed;
         offsetX = (startX - event.clientX) / zoomLevel * panSpeed;
@@ -122,6 +143,7 @@ canvas.addEventListener('mouseleave', () => {
     isPanning = false;
 });
 
+//TOUCH LOGIC: for mobile devices
 let lastTouchDistance = null; // To track pinch-to-zoom distance
 let lastTouchX = 0, lastTouchY = 0; // To track panning
 
@@ -144,7 +166,6 @@ canvas.addEventListener('touchmove', (event) => {
         const touchX = event.touches[0].clientX;
         const touchY = event.touches[0].clientY;
 
-        const panSpeed = 1.5; // Adjust panning speed
         offsetX += (lastTouchX - touchX) / zoomLevel * panSpeed;
         offsetY += (lastTouchY - touchY) / zoomLevel * panSpeed;
 
@@ -154,7 +175,6 @@ canvas.addEventListener('touchmove', (event) => {
         // Two fingers for pinch-to-zoom
         const currentTouchDistance = getTouchDistance(event.touches);
         if (lastTouchDistance) {
-            const zoomFactor = 1.2; // Adjust zoom sensitivity
             if (currentTouchDistance > lastTouchDistance) {
                 zoomLevel *= zoomFactor; // Zoom in
             } else {
