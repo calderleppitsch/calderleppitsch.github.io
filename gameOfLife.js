@@ -2,8 +2,8 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 // Adjustable variables
-const rows = 50;
-const cols = 50;
+const rows = 100;
+const cols = 100;
 let cellSize = canvas.width / cols; // Cell size can change with zoom
 let frameRate = 30; // Frames per second
 let zoomLevel = 1; // Zoom level
@@ -13,18 +13,23 @@ let offsetY = 0; // Vertical pan offset
 let grid = createGrid(rows, cols);
 
 function createGrid(rows, cols) {
-    const grid = [];
-    for (let i = 0; i < rows; i++) {
-        grid[i] = [];
-        for (let j = 0; j < cols; j++) {
-            grid[i][j] = Math.random() > 0.8 ? 1 : 0; // Randomly populate cells
-        }
-    }
-    return grid;
+    // const grid = [];
+    // for (let i = 0; i < rows; i++) {
+    //     grid[i] = [];
+    //     for (let j = 0; j < cols; j++) {
+    //         grid[i][j] = Math.random() > 0.8 ? 1 : 0; // Randomly populate cells
+    //     }
+    // }
+    // return grid;
+    return Array.from({ length: rows }, () =>
+        Array.from({ length: cols }, () => (Math.random() > 0.8 ? 1 : 0))
+    );
+    // Attempt at optimizing the grid creation using Array.from
 }
 
 function drawGrid() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     const startRow = Math.floor(offsetY / cellSize);
     const endRow = Math.ceil((offsetY + canvas.height / zoomLevel) / cellSize);
     const startCol = Math.floor(offsetX / cellSize);
@@ -99,11 +104,13 @@ canvas.addEventListener('mousedown', (event) => {
 
 canvas.addEventListener('mousemove', (event) => {
     if (isPanning) {
-        const panSpeed = 1.5; // Increase panning speed
-        offsetX += (startX - event.clientX) / zoomLevel * panSpeed;
-        offsetY += (startY - event.clientY) / zoomLevel * panSpeed;
-        startX = event.clientX;
-        startY = event.clientY;
+        const panSpeed = 0.5; // Increase panning speed
+        // offsetX += (startX - event.clientX) / zoomLevel * panSpeed;
+        // offsetY += (startY - event.clientY) / zoomLevel * panSpeed;
+        offsetX = (startX - event.clientX) / zoomLevel * panSpeed;
+        offsetY = (startY - event.clientY) / zoomLevel * panSpeed;
+        // startX = event.clientX;
+        // startY = event.clientY;
     }
 });
 
