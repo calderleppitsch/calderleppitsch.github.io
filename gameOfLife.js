@@ -46,7 +46,7 @@ function drawGrid() {
         for (let j = Math.max(0, startCol); j < Math.min(cols, endCol); j++) {
             const x = (j * cellSize - offsetX) * zoomLevel;
             const y = (i * cellSize - offsetY) * zoomLevel;
-            const size = cellSize * zoomLevel + 0.1;
+            const size = cellSize * zoomLevel + 0.5;
 
             ctx.fillStyle = grid[i][j] ? 'white' : 'black';
             ctx.fillRect(x, y, size, size);
