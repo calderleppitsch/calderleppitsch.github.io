@@ -115,4 +115,60 @@ canvas.addEventListener('mouseleave', () => {
     isPanning = false;
 });
 
+let lastTouchDistance = null; // To track pinch-to-zoom distance
+let lastTouchX = 0, lastTouchY = 0; // To track panning
+
+canvas.addEventListener('touchstart', (event) => {
+    if (event.touches.length === 1) {
+        // Single touch for panning
+        lastTouchX = event.touches[0].clientX;
+        lastTouchY = event.touches[0].clientY;
+    } else if (event.touches.length === 2) {
+        // Two fingers for pinch-to-zoom
+        lastTouchDistance = getTouchDistance(event.touches);
+    }
+});
+
+canvas.addEventListener('touchmove', (event) => {
+    event.preventDefault(); // Prevent default scrolling behavior
+
+    if (event.touches.length === 1) {
+        // Single touch for panning
+        const touchX = event.touches[0].clientX;
+        const touchY = event.touches[0].clientY;
+
+        const panSpeed = 1.5; // Adjust panning speed
+        offsetX += (lastTouchX - touchX) / zoomLevel * panSpeed;
+        offsetY += (lastTouchY - touchY) / zoomLevel * panSpeed;
+
+        lastTouchX = touchX;
+        lastTouchY = touchY;
+    } else if (event.touches.length === 2) {
+        // Two fingers for pinch-to-zoom
+        const currentTouchDistance = getTouchDistance(event.touches);
+        if (lastTouchDistance) {
+            const zoomFactor = 1.2; // Adjust zoom sensitivity
+            if (currentTouchDistance > lastTouchDistance) {
+                zoomLevel *= zoomFactor; // Zoom in
+            } else {
+                zoomLevel /= zoomFactor; // Zoom out
+            }
+        }
+        lastTouchDistance = currentTouchDistance;
+    }
+});
+
+canvas.addEventListener('touchend', (event) => {
+    if (event.touches.length < 2) {
+        lastTouchDistance = null; // Reset pinch-to-zoom tracking
+    }
+});
+
+// Helper function to calculate the distance between two touch points
+function getTouchDistance(touches) {
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
 gameLoop();
