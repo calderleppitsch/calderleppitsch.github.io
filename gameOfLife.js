@@ -1,5 +1,7 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+//try disabling antialiasing
+tx.imageSmoothingEnabled = false;
 
 // Adjustable variables
 const rows = 100; // Number of rows in the grid
