@@ -10,12 +10,12 @@ timezone: "America/New_York"
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Calder Leppitsch's Personal Website
+title: cleppitsch Creative Portfolio
 
-tagline: My space for sharing portfolio work and exploring new ideas.
+tagline: A space for sharing my exploration of engineering and art.
 
 description: >- # used by seo meta and the atom feed
-  My space for sharing portfolio work and exploring new ideas.
+  A space for sharing my exploration of engineering and art.
 
 url: "https://calderleppitsch.github.io"
 
@@ -126,7 +126,7 @@ pwa:
     deny_paths:
       # - "/example"  # URLs match `<SITE_URL>/example/*` will not be cached by the PWA
 
-paginate: 10
+#paginate: 10
 
 # The base URL of your site
 baseurl: ""
