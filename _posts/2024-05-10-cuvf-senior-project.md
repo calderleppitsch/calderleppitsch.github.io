@@ -5,6 +5,7 @@ categories: [Engineering, Drones]
 tags: [drones, control systems, coursework]
 description: Designing, building, testing, and breaking a drone.
 toc: false
+license: ""
 ---
 
 I completed this report and accompanying poster as part of my senior project. The goal of the project was to design and build a drone that could take off vertically and fly horizontally around a course.
@@ -15,7 +16,7 @@ I realized how essential it is to excel at meeting commitments and sticking to d
 ## Display Poster
 ![Vertical Flight Poster](/assets/img/cuvf/CooperUnionVerticalFlight_Spring2024Poster-1.png){: w="1000" }
 
-[📄View PDF in dedicated tab](/assets/pdf/cuvf/CooperUnionVerticalFlight_Spring2024Poster.pdf)
+<a href="/assets/pdf/cuvf/CooperUnionVerticalFlight_Spring2024Poster.pdf" target="_blank">📄View PDF in dedicated tab</a>
 
 ## Report Preview
 <div style = "overflow-x: auto;">
@@ -27,4 +28,4 @@ I realized how essential it is to excel at meeting commitments and sticking to d
     </iframe>
 </div>
 
-[📄View PDF in dedicated tab](/assets/pdf/cuvf/CUVF_FinalPaper.pdf)
+<a href="/assets/pdf/cuvf/CUVF_FinalPaper.pdf" target="_blank">📄View PDF in dedicated tab</a>

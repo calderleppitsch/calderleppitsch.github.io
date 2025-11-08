@@ -5,6 +5,7 @@ categories: [Engineering, Drones]
 tags: [drones, dynamics, manufacturing]
 description: A paper on gyroscopic control methods which devolved into making a high-rpm reaction wheel.
 toc: false
+license: ""
 ---
 
 For an independent study course, a few mechanical engineers banded together to design and build an autonomous vehicle that uses gyroscopic torque to lift a set of wheels off the ground. We set off tentatively with ambitions to create such a vehicle. It was eventually discovered through design studies that manufacturing a small autonomous vehicle with two control moment gyroscopes (to cancel unwanted torques) would be substantially infeasible given the amount of effort we were prepared to devote to the project.
@@ -24,4 +25,4 @@ So we went with the backup option of making a reaction wheel powered device and 
     </iframe>
 </div>
 
-[📄View PDF in dedicated tab](/assets/pdf/gyro_car/20230731_IMECE_Gyro_Final.pdf)
+<a href="/assets/pdf/gyro_car/20230731_IMECE_Gyro_Final.pdf" target="_blank">📄View PDF in dedicated tab</a>

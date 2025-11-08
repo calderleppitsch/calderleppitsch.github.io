@@ -5,6 +5,7 @@ categories: [Engineering, Supersonics]
 tags: [compressible flow, supersonics, optimization, computational design]
 description: Two informal papers describing coursework done for a class on compressible flow and supersonic aerodynamics / propulsion.
 toc: false
+license: "[CC BY-NC-SA 4.0](/license/)"
 ---
 
 The two papers included in this post are from a course called "Rocket Science" which was essentially an introduction to compressible flow and supersonic propulsion.
@@ -21,7 +22,7 @@ The first paper is about optimizing a body to minimize pressure and viscous drag
     </iframe>
 </div>
 
-[📄View PDF in dedicated tab](/assets/pdf/compressible_flow/Supersonic_Aerodynamics_Optimization.pdf)
+<a href="/assets/pdf/compressible_flow/Supersonic_Aerodynamics_Optimization.pdf" target="_blank">📄View PDF in dedicated tab</a>
 
 The second paper is a group project describing the design of a ramjet engine. I did a lot of the coding and CAD, and I am pretty proud of the product that we came up with given what we knew back then. Ignoring the caveat that the geometry is all two-dimensional, the inlet design almost makes sense, other than the fact that the turning angle is very high. The expanding nozzle is also reasonable given that it was designed using MOC. The cowl is way too thin to take any load. We won't even get into the combustor since I still don't know how that works.
 Enjoy JP's pretty CFD plots!
@@ -36,14 +37,14 @@ Enjoy JP's pretty CFD plots!
     </iframe>
 </div>
 
-[📄View PDF in dedicated tab](/assets/pdf/compressible_flow/Supersonic_Propulsion_FinalPaper.pdf)
+<a href="/assets/pdf/compressible_flow/Supersonic_Propulsion_FinalPaper.pdf" target="_blank">📄View PDF in dedicated tab</a>
 
 ![Shock Waves](/assets/img/compressible_flow/Fuselage_Aerodynamics.png){: w="1000" }
 _Fuselage Oblique and Expansion Waves_
 
 ## Engine Design Code in MATLAB
 
-```tex
+```matlab
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %                 Final Project - Ramjet Engine                 %
     %                           5/10/2024                           %
@@ -431,7 +432,7 @@ _Fuselage Oblique and Expansion Waves_
 
 ## Engine Performance Code in MATLAB
 
-```tex
+```matlab
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %                 Final Project - Ramjet Engine                 %
     %                           5/10/2024                           %

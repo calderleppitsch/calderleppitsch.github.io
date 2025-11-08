@@ -5,6 +5,7 @@ categories: [Engineering, Vibrations]
 tags: [vibrations, modal analysis, signal processing]
 description: A memo describing the experimental setup and results of modal response characterization of a polycarbonate sheet.
 toc: false
+license: ""
 ---
 
 ![FRF Stabilization Diagram](/assets/img/vibrations/Stabilization_diagram.png){: w="800" } 
@@ -26,4 +27,4 @@ Hey, at least we got really clean peaks on our magnitude plots and cool mode sha
     </iframe>
 </div>
 
-[📄View PDF in dedicated tab](/assets/pdf/vibrations/Polycarbonate_Plate_Modal_Leppitsch_Yang.pdf)
+<a href="/assets/pdf/vibrations/Polycarbonate_Plate_Modal_Leppitsch_Yang.pdf" target="_blank">📄View PDF in dedicated tab</a>
