@@ -9,5 +9,5 @@ permalink: /
        alt="Slices Through Space"
        width="2000"
        height="1200"
-       class="normal" />
+       class="normal no-lazyload" />
 </a>

@@ -53,7 +53,7 @@ Next, since the traversal of each edge is parametrized by a single value that go
 
 With all the curves in sorted order and orientation tracked, points can now be added according to the even spacing distance. To place the points, all the curves are iterated through once. As the curves are traversed, points are placed according to how much length is available on the current curve after the previously placed point. Any remainder is carried over to the next curve. The point entities are all stored in an array.
 
-Now that we have all the points in an array, we can just write their coordinates to the custom table structure created by Greg.
+Now that I have all the points in an array, the script can just write their coordinates to the custom table structure created by Greg.
 
 ![Extracted Points](/assets/img/slicing_space/extract_points_result.png){: w="1000"}
 _Extracted Points_
@@ -66,7 +66,7 @@ This is the link
 
 ### Plotting in MATLAB
 
-Alright, now I have all the data points! What to do with them? Well, I'll plot them in MATLAB because I'm most familiar with the language. First since I have all the curves in separate sheets of an excel file, I'll convert the point data into a data structure which makes sense.
+Alright, now I have all the data points! What to do with them? Well, I'll plot them in MATLAB because I'm most familiar with the language. First, since I have all the curves in separate sheets of an excel file, I'll convert the point data into a data structure which makes sense.
 
 ```matlab
 %% Load Excel
