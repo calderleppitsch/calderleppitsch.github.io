@@ -1,0 +1,12 @@
+img.no-lazyload,
+.no-lazyload img {
+  filter: none !important;
+  animation: none !important;
+  opacity: 1 !important;
+}
+
+.img-blur {
+  background: none !important;
+  animation: none !important;
+  filter: none !important;
+}
