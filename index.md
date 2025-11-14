@@ -8,10 +8,4 @@ permalink: /
 Welcome to my Homepage
 </div>
 
-<a href="{{ '/posts/slicing-through-space/' | relative_url }}">
-  <img src="{{ '/assets/img/homepage/calderplane1.gif' | relative_url }}"
-       alt="Slices Through Space"
-       width="2000"
-       height="1200"
-       class="normal no-lazyload" />
-</a>
+[![Slices Through Space](/assets/img/homepage/calderplane1.gif)](/posts/slicing-through-space/){: w="1000" }
